@@ -24,13 +24,15 @@ const movieSchema = new mongoose.Schema({
 const Movie = mongoose.model("Movie", movieSchema);
 
 //this is still not creating anything in the actual databse
-const amadeus = new Movie({
-  title: "Amadeus",
-  year: 1986,
-  score: 9.2,
-  rating: "R",
-});
 
+// const amadeus = new Movie({
+//   title: "Amadeus",
+//   year: 1986,
+//   score: 9.2,
+//   rating: "R",
+// });
+
+//you do not need to use variable.save() in terminal because insertMany automatically pushes and saves it for us
 Movie.insertMany([
   { title: "Amelie", year: 2001, score: 8.3, rating: "R" },
   { title: "Alien", year: 1979, score: 8.1, rating: "R" },
