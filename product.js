@@ -37,20 +37,35 @@ const productSchema = new mongoose.Schema({
     },
     inStore: {
       type: Number,
-      default: 0, //this will default to 0 if not input is given
+      default: 0, //this will default to 0 if not input is given.
     },
   },
 });
 
 const Product = mongoose.model("Product", productSchema);
 
-const bike = new Product({
-  name: "Bike Helmet",
-  price: 29.5,
-  categories: ["Cycling", "Safety"],
-});
-bike
-  .save()
+// const bike = new Product({
+//   name: "Tire Pump",
+//   price: 19.5,
+//   categories: ["Cycling"],
+// });
+// bike
+//   .save()
+//   .then((data) => {
+//     console.log("It worked!");
+//     console.log(data);
+//   })
+//   .catch((err) => {
+//     console.log("OH NO ERROR!");
+//     console.log(err);
+//   });
+
+Product.findOneAndUpdate(
+  { name: "Tire Pump" },
+  { price: -19.99 },
+  { new: true, runValidators: true } //runValidators makes validations PERSIST after updating something! If you do not use runValidators after something was already approved, it can be changed with values that are schema did not want.
+  //   ex here: price -19.99 went through because the original price was already approved. with runValidators, -19.99 will NOT go through!
+)
   .then((data) => {
     console.log("It worked!");
     console.log(data);
