@@ -46,24 +46,54 @@ const productSchema = new mongoose.Schema({
   },
 });
 
+//instance method
+//the syntax is someInstance.methods.whateverYouWant
+// productSchema.methods.greet = function () {
+//   console.log("Hello! Hi! Howdy!");
+//   console.log(`- from ${this.name}`); //the keyword 'this' is defining the individual instance from where it's called
+// };
+
+//another instance method
+productSchema.methods.toggleOnSale = function () {
+  this.onSale = !this.onSale;
+  return this.save(); //by making this return the save, we can now await it because saving takes time
+};
+
+productSchema.methods.addCategory = function (newCat) {
+  this.categories.push(newCat);
+  return this.save;
+};
+
 const Product = mongoose.model("Product", productSchema);
 
-const bike = new Product({
-  name: "Cycling Jersey",
-  price: 28.5,
-  categories: ["Cycling"],
-  size: "XS",
-});
-bike
-  .save()
-  .then((data) => {
-    console.log("It worked!");
-    console.log(data);
-  })
-  .catch((err) => {
-    console.log("OH NO ERROR!");
-    console.log(err);
-  });
+//using this to help us find a product so that we can use the instance method function
+const findProduct = async () => {
+  const foundProduct = await Product.findOne({ name: "Bike Helmet" });
+  console.log(foundProduct);
+  await foundProduct.toggleOnSale(); //this is awaiting the save from the toggleOnSale method
+  console.log(foundProduct);
+  await foundProduct.addCategory("Outdoors"); //also awaiting the save from the addCategory method
+  console.log(foundProduct);
+};
+
+findProduct();
+
+// const bike = new Product({
+//   name: "Cycling Jersey",
+//   price: 28.5,
+//   categories: ["Cycling"],
+//   size: "XS ",
+// });
+// bike
+//   .save()
+//   .then((data) => {
+//     console.log("It worked!");
+//     console.log(data);
+//   })
+//   .catch((err) => {
+//     console.log("OH NO ERROR!");
+//     console.log(err);
+//   });
 
 // Product.findOneAndUpdate(
 //   { name: "Tire Pump" },
