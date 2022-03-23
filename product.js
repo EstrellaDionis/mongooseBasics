@@ -64,6 +64,11 @@ productSchema.methods.addCategory = function (newCat) {
   return this.save;
 };
 
+//static method
+productSchema.statics.fireSale = function () {
+  return this.updateMany({}, { onSale: true, price: 0 }); //the empty bracket is choosing everything
+};
+
 const Product = mongoose.model("Product", productSchema);
 
 //using this to help us find a product so that we can use the instance method function
@@ -76,7 +81,10 @@ const findProduct = async () => {
   console.log(foundProduct);
 };
 
-findProduct();
+//static console.log
+Product.fireSale().then((res) => console.log(res));
+
+// findProduct();
 
 // const bike = new Product({
 //   name: "Cycling Jersey",
