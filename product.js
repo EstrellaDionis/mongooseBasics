@@ -65,6 +65,9 @@ productSchema.methods.addCategory = function (newCat) {
 };
 
 //static method
+//static methods live on the MODEL themselves and not on the INSTANCES of the model
+// 'this' inside of a static method refers to the model class itself and NOT the individual instances, so it refers to EVERYTHING in the model
+// so basically, you use this when you want to target many things vs instance where you want to target specific things
 productSchema.statics.fireSale = function () {
   return this.updateMany({}, { onSale: true, price: 0 }); //the empty bracket is choosing everything
 };
